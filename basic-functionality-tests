@@ -1,6 +1,12 @@
 let video;
 let poseNet;
 let pose;
+let wristL;
+let wristR;
+
+// flag set
+
+let startFlag = -1;
 
 function setup() {
   createCanvas(700, 400);
@@ -33,46 +39,71 @@ function modelLoaded() {
 
 function draw() {
   //image(video, 0, 0);
-  background(0, 0, 0);
-  
-  fill(255,255,255);
-  textSize(32);
-  
-  // Introduction text
-  text("Welcome to the House", 180, 150);
-  
-  textSize(24);
-  text("Enter?", 300, 210);
   
   // begin checking poses
   if(pose) {
     
     // shorthand for wrist positions
-    let wristL = pose.leftWrist;
-    let wristR = pose.rightWrist;
+    wristL = pose.leftWrist;
+    wristR = pose.rightWrist;
     
     let d = dist(wristL.x, wristL.y, wristR.x, wristR.y);
+    
+    
+    intro();
 
-    // position tracker
-    ellipse(wristL.x, wristL.y, 50);
-    
-    // if the hand touches the "Enter" text, begin the thing
-    if(wristL.x > 250 && wristL.x < 450 &&
-      wristL.y > 150 && wristL.y < 250) {
-      background(0,0,0);
-      text("As you wish...", 250, 250);
-    }
-    
-    
-    
-    
-    
-    
     // monitor wristL position
     textSize(15);
     text("x: " + round(wristL.x,0), 50, 370);
     text("y: " + round(wristL.y,0), 100, 370);
+    
+    text("startFlag: " + startFlag, 500, 370);
   }
 
+}
+
+function intro() {
+  
+    background(0, 0, 0);
+  
+    // position tracker
+    ellipse(wristL.x, wristL.y, 50);
+  
+    fill(255,255,255);
+    textSize(32);
+
+    // Introduction text
+    text("Welcome to the House", 180, 150);
+
+    textSize(24);
+    text("Enter?", 300, 210);
+  
+    // if the hand touches the "Enter" text, begin the thing
+    if(wristL.x > 250 && wristL.x < 450 &&
+    wristL.y > 100 && wristL.y < 300) {
+    background(0,0,0);
+    text("As you wish...", 250, 250);
+    startFlag = (startFlag * (-1))
+  }
+  
+  if(startFlag == 1) {
+    nextScene();
+  }
+  
+}
+
+function nextScene() {
+  let a, b, c = 0;
+  
+  for(let i = 0; i < 255; i++) {
+    a++;
+    b++;
+    c++;
+    background(a, b, c);
+  }
+  
+  fill(0,0,0);
+  textSize(32);
+  text("You are inside.", 250, 250);
   
 }
