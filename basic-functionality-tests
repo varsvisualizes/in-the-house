@@ -3,7 +3,7 @@ let poseNet;
 let pose;
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(700, 400);
   video = createCapture(VIDEO);
   video.hide();
   poseNet = ml5.poseNet(video, modelLoaded);
@@ -34,6 +34,9 @@ function modelLoaded() {
 function draw() {
   image(video, 0, 0);
   
+  textSize(32);
+  text("Hello, you!", 400, 170);
+  
   if(pose) {
     
     let wristL = pose.leftWrist;
@@ -43,8 +46,17 @@ function draw() {
     
     let nose = pose.nose;
     
-    ellipse(pose.nose.x, pose.nose.y, 100);
-        
+    ellipse(wristL.x, wristL.y, 100);
+    
+    if(wristL.x > 400 && wristL.x < 520 &&
+      wristL.y > 150 && wristL.y < 250) {
+      image(video, 0, 0);
+      text("You got it!", 400, 170);
+    }
+       
+    text(round(wristL.x,0), 50, 370);
+    text(round(wristL.y,0), 125, 370);
   }
+
   
 }
