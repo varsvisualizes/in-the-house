@@ -83,7 +83,7 @@ function intro() {
     wristL.y > 100 && wristL.y < 300) {
     background(0,0,0);
     text("As you wish...", 250, 250);
-    startFlag = (startFlag * (-1))
+    startFlag = 1;
   }
   
   if(startFlag == 1) {
