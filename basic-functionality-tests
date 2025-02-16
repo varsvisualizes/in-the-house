@@ -1,0 +1,50 @@
+let video;
+let poseNet;
+let pose;
+
+function setup() {
+  createCanvas(400, 400);
+  video = createCapture(VIDEO);
+  video.hide();
+  poseNet = ml5.poseNet(video, modelLoaded);
+  poseNet.on('pose', gotPoses);
+}
+
+
+// Let's put all the poses from PoseNet into a list called an array, so we can easily call on them.
+function gotPoses(poses) {
+  
+  // This will list out all the poses we can get. 
+  console.log(poses);
+  
+  // Get the names of all of the keypoints we can access. 
+  // 
+  //You can see the list here, under "Keypoint Diagram: COCO KeyPoints" - https://github.com/tensorflow/tfjs-models/tree/master/pose-detection
+  if(poses.length > 0) {
+    pose = poses[0].pose;
+  }
+}
+
+// Let us know when the poses are loaded up and we're ready to roll
+function modelLoaded() {
+  console.log("Ready to start posing!");
+}
+
+
+function draw() {
+  image(video, 0, 0);
+  
+  if(pose) {
+    
+    let wristL = pose.leftWrist;
+    let wristR = pose.rightWrist;
+    
+    let d = dist(wristL.x, wristL.y, wristR.x, wristR.y);
+    
+    let nose = pose.nose;
+    
+    ellipse(pose.nose.x, pose.nose.y, 100);
+        
+  }
+  
+}
