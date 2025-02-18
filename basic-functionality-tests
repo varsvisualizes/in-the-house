@@ -7,9 +7,14 @@ let wristR;
 // flag set
 
 let startFlag = -1;
+let scene2Start = -1;
+
+function preload() {
+  water = loadImage("watering-can.gif");
+}
 
 function setup() {
-  createCanvas(700, 400);
+  createCanvas(600, 400);
   video = createCapture(VIDEO);
   video.hide();
   poseNet = ml5.poseNet(video, modelLoaded);
@@ -93,17 +98,36 @@ function intro() {
 }
 
 function nextScene() {
-  let a, b, c = 0;
   
-  for(let i = 0; i < 255; i++) {
-    a++;
-    b++;
-    c++;
-    background(a, b, c);
-  }
+  background(255,255,255);
+  
+  // position tracker
+  ellipse(wristL.x, wristL.y, 50);
   
   fill(0,0,0);
   textSize(32);
   text("You are inside.", 250, 250);
   
+  textSize(24);
+  text("Do it again.", 250, 325);
+  
+  if(wristL.x > 200 && wristL.x < 400 &&
+    wristL.y > 200 && wristL.y < 300) {
+    background(0,0,0);
+    text("Go.", 250, 250);
+    scene2Start = 1;
+  }
+  
+  if(scene2Start == 1) {
+    scene2();
+  }
+  
+}
+
+function scene2() {
+  background(0, 0, 0);
+  
+  fill(255, 255,255);
+  textSize(32);
+  text("We have moved on.", 250, 250);
 }
